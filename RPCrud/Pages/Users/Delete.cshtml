@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{id:int?}"
 @model RPCrud.Pages.Users.DeleteModel
 
 @{
@@ -49,7 +49,7 @@
             @Html.DisplayFor(model => model.User.CheckedAgreement)
         </dd>
     </dl>
-    
+
     <form method="post">
         <input type="hidden" asp-for="User.ID" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |

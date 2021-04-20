@@ -25,7 +25,7 @@ namespace RPCrud.Models
                 context.User.AddRange(
                     new User
                     {
-                        
+                        Login = "John",
                         Password = "123",
                         Gender = "m",
                         Country = "ca",
