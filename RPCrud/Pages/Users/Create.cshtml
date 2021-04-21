@@ -24,13 +24,19 @@
                 <span asp-validation-for="User.Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="User.Gender" class="control-label"></label>
-                <input asp-for="User.Gender" class="form-control" />
+                <label asp-for="User.Gender" class="control-label"></label><br />
+                <label><input asp-for="User.Gender" type="radio" value="male" />  male  </label>
+                <label><input asp-for="User.Gender" type="radio" value="female" />  female  </label>
+                <label><input asp-for="User.Gender" type="radio" value="other" checked="checked" />  other  </label>
                 <span asp-validation-for="User.Gender" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="User.Country" class="control-label"></label>
-                <input asp-for="User.Country" class="form-control" />
+                <label asp-for="User.Country" class="control-label"></label><br />
+                <select asp-for="User.Country">
+                    <option value="ca">Canada</option>
+                    <option value="us">US</option>
+                    <option value="mx">Mexico</option>
+                </select>
                 <span asp-validation-for="User.Country" class="text-danger"></span>
             </div>
             <div class="form-group">
