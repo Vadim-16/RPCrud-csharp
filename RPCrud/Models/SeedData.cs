@@ -26,8 +26,8 @@ namespace RPCrud.Models
                     new User
                     {
                         Login = "John",
-                        Password = "123",
-                        Gender = "m",
+                        Password = "AA!@#5gf",
+                        Gender = "male",
                         Country = "ca",
                         DateOfBirth = DateTime.Parse("1989-2-12"),
                         CheckedAgreement = true
@@ -36,19 +36,19 @@ namespace RPCrud.Models
                     new User
                     {
                         Login = "Sam",
-                        Password = "456",
-                        Gender = "f",
+                        Password = "GH&&*4hgjyz%",
+                        Gender = "female",
                         Country = "ca",
                         DateOfBirth = DateTime.Parse("1999-1-19"),
-                        CheckedAgreement = true
+                        CheckedAgreement = false
                     },
 
                     new User
                     {
                         Login = "Molly",
-                        Password = "789",
-                        Gender = "f",
-                        Country = "en",
+                        Password = "5(&%$KGfyR",
+                        Gender = "female",
+                        Country = "us",
                         DateOfBirth = DateTime.Parse("2000-11-17"),
                         CheckedAgreement = true
                     },
@@ -56,19 +56,64 @@ namespace RPCrud.Models
                     new User
                     {
                         Login = "Jorge",
-                        Password = "111",
-                        Gender = "m",
+                        Password = "P4$$ghYD&",
+                        Gender = "male",
                         Country = "mx",
                         DateOfBirth = DateTime.Parse("1977-6-15"),
-                        CheckedAgreement = true
+                        CheckedAgreement = false
                     },
                     new User
                     {
                         Login = "Sarah",
                         Password = "222",
-                        Gender = "f",
+                        Gender = "female",
                         Country = "ca",
-                        DateOfBirth = DateTime.Parse("1995-7-27"),
+                        DateOfBirth = DateTime.Parse("1987-2-23"),
+                        CheckedAgreement = true
+                    },
+                    new User
+                    {
+                        Login = "Antony",
+                        Password = "*$K3%GF!fdb",
+                        Gender = "male",
+                        Country = "us",
+                        DateOfBirth = DateTime.Parse("1999-10-11"),
+                        CheckedAgreement = true
+                    },
+                    new User
+                    {
+                        Login = "Michaela",
+                        Password = "P4$$ghYD&",
+                        Gender = "female",
+                        Country = "mx",
+                        DateOfBirth = DateTime.Parse("1974-8-2"),
+                        CheckedAgreement = true
+                    },
+                    new User
+                    {
+                        Login = "Clayton",
+                        Password = "67HF4gfdR%%#&",
+                        Gender = "male",
+                        Country = "us",
+                        DateOfBirth = DateTime.Parse("1975-6-26"),
+                        CheckedAgreement = true
+                    },
+                    new User
+                    {
+                        Login = "Andre",
+                        Password = "H*^$kdfGG4%g/",
+                        Gender = "male",
+                        Country = "mx",
+                        DateOfBirth = DateTime.Parse("2001-3-5"),
+                        CheckedAgreement = true
+                    },
+                    new User
+                    {
+                        Login = "Margaret",
+                        Password = "QWN44F#@%jf",
+                        Gender = "female",
+                        Country = "mx",
+                        DateOfBirth = DateTime.Parse("2001-3-5"),
                         CheckedAgreement = true
                     }
                 );

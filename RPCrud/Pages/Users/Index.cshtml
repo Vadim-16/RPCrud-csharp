@@ -16,7 +16,7 @@
         <select asp-for="UserCountry" asp-items="Model.Countries">
             <option value="">All</option>
         </select>
-        Login: <input type="text" asp-for="SearchString" />
+        Login: <input type="text" name="SearchString" value="@Model.CurrentFilter" />
         <input type="submit" value="Search" />
     </p>
 </form>
@@ -27,32 +27,32 @@
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.User[0].Login)
+                    @Html.DisplayNameFor(model => model.Users[0].Login)
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Password)
+                @Html.DisplayNameFor(model => model.Users[0].Password)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Gender)
+                @Html.DisplayNameFor(model => model.Users[0].Gender)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Country)
+                @Html.DisplayNameFor(model => model.Users[0].Country)
             </th>
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.User[0].DateOfBirth)
+                    @Html.DisplayNameFor(model => model.Users[0].DateOfBirth)
                 </a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].CheckedAgreement)
+                @Html.DisplayNameFor(model => model.Users[0].CheckedAgreement)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model.User)
+        @foreach (var item in Model.Users)
         {
             <tr>
                 <td>
@@ -83,20 +83,20 @@
     </tbody>
 </table>
 
-    @{var prevDisabled = !Model.User.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.User.HasNextPage ? "disabled" : "";
+    @{var prevDisabled = !Model.Users.HasPreviousPage ? "disabled" : "";
+        var nextDisabled = !Model.Users.HasNextPage ? "disabled" : "";
     }
 
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.User.PageIndex - 1)"
+   asp-route-pageIndex="@(Model.Users.PageIndex - 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @prevDisabled">
     Previous
 </a>
 <a asp-page="./Index"
    asp-route-sortOrder="@Model.CurrentSort"
-   asp-route-pageIndex="@(Model.User.PageIndex + 1)"
+   asp-route-pageIndex="@(Model.Users.PageIndex + 1)"
    asp-route-currentFilter="@Model.CurrentFilter"
    class="btn btn-primary @nextDisabled">
     Next

@@ -27,7 +27,7 @@ namespace RPCrud.Models
         [DataType(DataType.Date), Display(Name = "Date of birth"), Required]
         public DateTime DateOfBirth { get; set; }
 
-        [Required, Display(Name = "agree with policy")]
+        [Required, Display(Name = "Agree with policy")]
         public bool CheckedAgreement { get; set; }
     }
 }

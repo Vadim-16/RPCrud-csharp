@@ -22,72 +22,53 @@ namespace RPCrud.Pages.Users
             Configuration = configuration;
         }
 
-        public PaginatedList<User> User { get; set; }
+        public PaginatedList<User> Users { get; set; }
 
-       // public IList<User> User { get;set; }
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
 
-        [BindProperty(SupportsGet = true)]
-        public string SearchString { get; set; }
         public SelectList Countries { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public string UserCountry { get; set; }
 
-        public string NameSort { get; set; }
-        public string DateSort { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public string CurrentFilter { get; set; }
-        public string CurrentSort { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public string SortOrder { get; set; }
-
-        [BindProperty(SupportsGet = true)]
-        public int? PageIndex { get; set; }
-
-        public async Task OnGetAsync()
+        public async Task OnGetAsync(string sortOrder,
+            string currentFilter, string searchString, int? pageIndex)
         {
-            CurrentSort = SortOrder;
-            NameSort = String.IsNullOrEmpty(SortOrder) ? "Login_desc" : "";
-            DateSort = SortOrder == "Date" ? "Date_desc" : "Date";
+            CurrentSort = sortOrder;
+            NameSort = String.IsNullOrEmpty(sortOrder) ? "Login_desc" : "";
+            DateSort = sortOrder == "Date" ? "Date_desc" : "Date";
 
-            if (SearchString != null)
+            if (searchString != null)
             {
-                PageIndex = 1;
+                pageIndex = 1;
             }
             else
             {
-                SearchString = CurrentFilter;
+                searchString = currentFilter;
             }
 
-            CurrentFilter = SearchString;
+            CurrentFilter = searchString;
 
             IQueryable<User> usersIQ = from u in _context.User select u;
 
-            switch (SortOrder)
+            usersIQ = sortOrder switch
             {
-                case "Login_desc":
-                    usersIQ = usersIQ.OrderByDescending(s => s.Login);
-                    break;
-                case "Date":
-                    usersIQ = usersIQ.OrderBy(s => s.DateOfBirth);
-                    break;
-                case "Date_desc":
-                    usersIQ = usersIQ.OrderByDescending(s => s.DateOfBirth);
-                    break;
-                default:
-                    usersIQ = usersIQ.OrderBy(s => s.Login);
-                    break;
-            }
+                "Login_desc" => usersIQ.OrderByDescending(s => s.Login),
+                "Date" => usersIQ.OrderBy(s => s.DateOfBirth),
+                "Date_desc" => usersIQ.OrderByDescending(s => s.DateOfBirth),
+                _ => usersIQ.OrderBy(s => s.Login),
+            };
 
             IQueryable<string> countryQuery = from u in _context.User
                                               orderby u.Country
                                               select u.Country;
 
-            if (!string.IsNullOrEmpty(SearchString))
+            if (!string.IsNullOrEmpty(searchString))
             {
-                usersIQ = usersIQ.Where(s => s.Login.Contains(SearchString));
+                usersIQ = usersIQ.Where(s => s.Login.Contains(searchString));
             }
             if (!string.IsNullOrEmpty(UserCountry))
             {
@@ -95,9 +76,9 @@ namespace RPCrud.Pages.Users
             }
             var pageSize = Configuration.GetValue("PageSize", 4);
             Countries = new SelectList(await countryQuery.Distinct().ToListAsync());
-            User = await PaginatedList<User>.CreateAsync(
-                usersIQ.AsNoTracking(), PageIndex ?? 1, pageSize);
-            //User = await usersIQ.AsNoTracking().ToListAsync();
+            Users = await PaginatedList<User>.CreateAsync(
+                usersIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
+            
         }
     }
 }
