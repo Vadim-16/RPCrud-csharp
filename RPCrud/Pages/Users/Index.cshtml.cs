@@ -35,6 +35,8 @@ namespace RPCrud.Pages.Users
 
         public string NameSort { get; set; }
         public string DateSort { get; set; }
+
+        [BindProperty(SupportsGet = true)]
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
 
@@ -61,8 +63,7 @@ namespace RPCrud.Pages.Users
 
             CurrentFilter = SearchString;
 
-            IQueryable<User> usersIQ = from u in _context.User
-                                             select u;
+            IQueryable<User> usersIQ = from u in _context.User select u;
 
             switch (SortOrder)
             {
