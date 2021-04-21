@@ -42,15 +42,6 @@ namespace RPCrud.Pages.Users
             IQueryable<User> usersIQ = from u in _context.User
                                              select u;
 
-            if (!string.IsNullOrEmpty(SearchString))
-            {
-                usersIQ = usersIQ.Where(s => s.Login.Contains(SearchString));
-            }
-            if (!string.IsNullOrEmpty(UserCountry))
-            {
-                usersIQ = usersIQ.Where(x => x.Country == UserCountry);
-            }
-
             switch (SortOrder)
             {
                 case "login_desc":
@@ -71,7 +62,14 @@ namespace RPCrud.Pages.Users
                                               orderby u.Country
                                               select u.Country;
 
-
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                usersIQ = usersIQ.Where(s => s.Login.Contains(SearchString));
+            }
+            if (!string.IsNullOrEmpty(UserCountry))
+            {
+                usersIQ = usersIQ.Where(x => x.Country == UserCountry);
+            }
             
             Countries = new SelectList(await countryQuery.Distinct().ToListAsync());
             User = await usersIQ.AsNoTracking().ToListAsync();
