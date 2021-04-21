@@ -27,24 +27,54 @@ namespace RPCrud.Pages.Users
         [BindProperty(SupportsGet = true)]
         public string UserCountry { get; set; }
 
+        public string NameSort { get; set; }
+        public string DateSort { get; set; }
+        public string CurrentFilter { get; set; }
+        public string CurrentSort { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public string SortOrder { get; set; }
+
         public async Task OnGetAsync()
         {
-            IQueryable<string> countryQuery = from u in _context.User
-                                            orderby u.Country
-                                            select u.Country;
+            NameSort = String.IsNullOrEmpty(SortOrder) ? "login_desc" : "";
+            DateSort = SortOrder == "Date" ? "date_desc" : "Date";
 
-            var users = from u in _context.User
-                         select u;
+            IQueryable<User> usersIQ = from u in _context.User
+                                             select u;
+
             if (!string.IsNullOrEmpty(SearchString))
             {
-                users = users.Where(s => s.Login.Contains(SearchString));
+                usersIQ = usersIQ.Where(s => s.Login.Contains(SearchString));
             }
             if (!string.IsNullOrEmpty(UserCountry))
             {
-                users = users.Where(x => x.Country == UserCountry);
+                usersIQ = usersIQ.Where(x => x.Country == UserCountry);
             }
+
+            switch (SortOrder)
+            {
+                case "login_desc":
+                    usersIQ = usersIQ.OrderByDescending(s => s.Login);
+                    break;
+                case "Date":
+                    usersIQ = usersIQ.OrderBy(s => s.DateOfBirth);
+                    break;
+                case "date_desc":
+                    usersIQ = usersIQ.OrderByDescending(s => s.DateOfBirth);
+                    break;
+                default:
+                    usersIQ = usersIQ.OrderBy(s => s.Login);
+                    break;
+            }
+
+            IQueryable<string> countryQuery = from u in _context.User
+                                              orderby u.Country
+                                              select u.Country;
+
+
+            
             Countries = new SelectList(await countryQuery.Distinct().ToListAsync());
-            User = await users.ToListAsync();
+            User = await usersIQ.AsNoTracking().ToListAsync();
         }
     }
 }

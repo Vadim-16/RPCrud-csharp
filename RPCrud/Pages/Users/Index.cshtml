@@ -25,7 +25,9 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].Login)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort">
+                    @Html.DisplayNameFor(model => model.User[0].Login)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User[0].Password)
@@ -37,7 +39,9 @@
                 @Html.DisplayNameFor(model => model.User[0].Country)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.User[0].DateOfBirth)
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort">
+                    @Html.DisplayNameFor(model => model.User[0].DateOfBirth)
+                </a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.User[0].CheckedAgreement)
