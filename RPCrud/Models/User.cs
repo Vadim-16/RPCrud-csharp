@@ -1,8 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RPCrud.Models
 {
+    [Table("users", Schema = "rpcrud")]
     public class User
     {
         [Key]

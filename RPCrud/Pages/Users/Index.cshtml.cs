@@ -76,9 +76,7 @@ namespace RPCrud.Pages.Users
             }
             var pageSize = Configuration.GetValue("PageSize", 4);
             Countries = new SelectList(await countryQuery.Distinct().ToListAsync());
-            Users = await PaginatedList<User>.CreateAsync(
-                usersIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
-            
+            Users = await PaginatedList<User>.CreateAsync(usersIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
         }
     }
 }

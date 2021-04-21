@@ -2,9 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using RPCrud.Data;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace RPCrud.Models
 {
@@ -65,7 +63,7 @@ namespace RPCrud.Models
                     new User
                     {
                         Login = "Sarah",
-                        Password = "222",
+                        Password = "73HF3$*F%Ja",
                         Gender = "female",
                         Country = "ca",
                         DateOfBirth = DateTime.Parse("1987-2-23"),
