@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -8,22 +7,29 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RPCrud.Data;
 using RPCrud.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace RPCrud.Pages.Users
 {
     public class IndexModel : PageModel
     {
-        private readonly RPCrud.Data.RPCrudContext _context;
+        private readonly RPCrudContext _context;
+        private readonly IConfiguration Configuration;
 
-        public IndexModel(RPCrud.Data.RPCrudContext context)
+        public IndexModel(RPCrudContext context, IConfiguration configuration)
         {
             _context = context;
+            Configuration = configuration;
         }
 
-        public IList<User> User { get;set; }
+        public PaginatedList<User> User { get; set; }
+
+       // public IList<User> User { get;set; }
+
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
         public SelectList Countries { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string UserCountry { get; set; }
 
@@ -31,26 +37,42 @@ namespace RPCrud.Pages.Users
         public string DateSort { get; set; }
         public string CurrentFilter { get; set; }
         public string CurrentSort { get; set; }
+
         [BindProperty(SupportsGet = true)]
         public string SortOrder { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public int? PageIndex { get; set; }
+
         public async Task OnGetAsync()
         {
-            NameSort = String.IsNullOrEmpty(SortOrder) ? "login_desc" : "";
-            DateSort = SortOrder == "Date" ? "date_desc" : "Date";
+            CurrentSort = SortOrder;
+            NameSort = String.IsNullOrEmpty(SortOrder) ? "Login_desc" : "";
+            DateSort = SortOrder == "Date" ? "Date_desc" : "Date";
+
+            if (SearchString != null)
+            {
+                PageIndex = 1;
+            }
+            else
+            {
+                SearchString = CurrentFilter;
+            }
+
+            CurrentFilter = SearchString;
 
             IQueryable<User> usersIQ = from u in _context.User
                                              select u;
 
             switch (SortOrder)
             {
-                case "login_desc":
+                case "Login_desc":
                     usersIQ = usersIQ.OrderByDescending(s => s.Login);
                     break;
                 case "Date":
                     usersIQ = usersIQ.OrderBy(s => s.DateOfBirth);
                     break;
-                case "date_desc":
+                case "Date_desc":
                     usersIQ = usersIQ.OrderByDescending(s => s.DateOfBirth);
                     break;
                 default:
@@ -70,9 +92,11 @@ namespace RPCrud.Pages.Users
             {
                 usersIQ = usersIQ.Where(x => x.Country == UserCountry);
             }
-            
+            var pageSize = Configuration.GetValue("PageSize", 4);
             Countries = new SelectList(await countryQuery.Distinct().ToListAsync());
-            User = await usersIQ.AsNoTracking().ToListAsync();
+            User = await PaginatedList<User>.CreateAsync(
+                usersIQ.AsNoTracking(), PageIndex ?? 1, pageSize);
+            //User = await usersIQ.AsNoTracking().ToListAsync();
         }
     }
 }

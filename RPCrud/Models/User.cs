@@ -12,7 +12,7 @@ namespace RPCrud.Models
         [DataType(DataType.Text), StringLength(60, MinimumLength = 3), Required]
         public string Login { get; set; }
 
-        [RegularExpression(@"^(?=(.*[A-Z]){2,})(?=.*[0-9])(?=(.*[!@#$%^&*()\-[\]__+.]){3,}).{8,}$", ErrorMessage = "Password must contain" +
+        [RegularExpression(@"^(?=(.*[A-Z]){2,})(?=.*[0-9])(?=(.*[!@#\?$\/%^&*()\-[\]\,\<\>__+.]){3,}).{8,}$", ErrorMessage = "Password must contain" +
             " at least 2 uppercase characters, at least 3 special characters, at least 1 number and be at least 8 characters long")]
         [DataType(DataType.Password), StringLength(60, MinimumLength = 8), Required]
         public string Password { get; set; }
