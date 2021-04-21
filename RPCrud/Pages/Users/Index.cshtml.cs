@@ -41,7 +41,9 @@ namespace RPCrud.Pages.Users
             NameSort = String.IsNullOrEmpty(sortOrder) ? "Login_desc" : "";
             DateSort = sortOrder == "Date" ? "Date_desc" : "Date";
 
-            if (searchString != null)
+            string url11 = "https://localhost:5001/Users?UserCountry=ca&SearchString=";
+
+            if (searchString != null || UserCountry != null)
             {
                 pageIndex = 1;
             }
@@ -53,6 +55,7 @@ namespace RPCrud.Pages.Users
             CurrentFilter = searchString;
 
             IQueryable<User> usersIQ = from u in _context.User select u;
+            IQueryable<string> countryQuery = from u in _context.User orderby u.Country select u.Country;
 
             usersIQ = sortOrder switch
             {
@@ -61,10 +64,6 @@ namespace RPCrud.Pages.Users
                 "Date_desc" => usersIQ.OrderByDescending(s => s.DateOfBirth),
                 _ => usersIQ.OrderBy(s => s.Login),
             };
-
-            IQueryable<string> countryQuery = from u in _context.User
-                                              orderby u.Country
-                                              select u.Country;
 
             if (!string.IsNullOrEmpty(searchString))
             {
