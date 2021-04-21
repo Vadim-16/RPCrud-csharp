@@ -41,9 +41,7 @@ namespace RPCrud.Pages.Users
             NameSort = String.IsNullOrEmpty(sortOrder) ? "Login_desc" : "";
             DateSort = sortOrder == "Date" ? "Date_desc" : "Date";
 
-            string url11 = "https://localhost:5001/Users?UserCountry=ca&SearchString=";
-
-            if (searchString != null || UserCountry != null)
+            if (searchString != null)
             {
                 pageIndex = 1;
             }
@@ -73,6 +71,7 @@ namespace RPCrud.Pages.Users
             {
                 usersIQ = usersIQ.Where(x => x.Country == UserCountry);
             }
+
             var pageSize = Configuration.GetValue("PageSize", 4);
             Countries = new SelectList(await countryQuery.Distinct().ToListAsync());
             Users = await PaginatedList<User>.CreateAsync(usersIQ.AsNoTracking(), pageIndex ?? 1, pageSize);
